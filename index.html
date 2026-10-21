@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FlickReels</title>
+<link rel="icon" href="logo.png">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:#06070b;color:#fff;font-family:Arial,'Helvetica Neue',Helvetica,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased}
+.app{max-width:480px;margin:0 auto;min-height:100vh;overflow:hidden;position:relative;background:radial-gradient(circle at 80% 4%,#7d164b55,transparent 22%),#07080d}
+header{height:64px;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#07080de8;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:900;letter-spacing:-.3px;white-space:nowrap}
+.brand .logo{width:42px;height:42px;border-radius:12px;display:block}
+.hero{padding:34px 17px 22px}
+.badge{display:inline-block;font-size:11px;color:#ff9fc8;border:1px solid #ff4b8c55;border-radius:20px;padding:7px 10px}
+h1{font-size:43px;line-height:.98;letter-spacing:-2px;margin:17px 0 12px}
+h1 b{background:linear-gradient(90deg,#ff45a0,#ff754b,#ffd05c);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:#aaa;line-height:1.5;font-size:15px;margin:0}
+.btn{display:block;text-decoration:none;color:#fff;text-align:center;font-weight:900;font-size:16px;background:linear-gradient(100deg,#ff087a,#ff7049);padding:16px;border-radius:16px;margin-top:20px}
+.promo{margin:5px 15px 27px;padding:20px;border-radius:24px;background:linear-gradient(125deg,#3c1033,#1b1022 55%,#4c2116);border:1px solid #ff4f9855;position:relative;overflow:hidden}
+.promo small{color:#ff94c1;font-weight:800;font-size:11px}
+.promo h2{font-size:28px;margin:7px 0;letter-spacing:-1px}
+.promo h2 b{color:#ffd55f}
+.promo p{font-size:13px;color:#c1a9b7;margin:0;line-height:1.5}
+section{padding:0 15px 28px}
+.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}
+.title h2{font-size:21px;margin:0}
+.title span{font-size:12px;color:#888}
+.rail{display:grid;grid-auto-flow:column;grid-auto-columns:58%;gap:11px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+article{background:#11121a;border:1px solid #ffffff10;border-radius:18px;overflow:hidden;scroll-snap-align:start}
+article img{width:100%;height:300px;object-fit:cover;display:block}
+article h3{font-size:14px;line-height:1.2;margin:11px 11px 5px}
+article p{font-size:11px;color:#999;margin:0 11px 13px}
+.rewards{margin:0 15px 28px;padding:20px;border-radius:24px;background:linear-gradient(135deg,#1b1026,#351020);border:1px solid #a02a7655;position:relative;overflow:hidden}
+.rewards h2{margin:0 0 6px;font-size:21px}
+.rewards>p{font-size:13px;color:#aaa;margin:0;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}
+.grid div{background:#ffffff08;border-radius:15px;padding:14px;font-size:12px;color:#ccc;line-height:1.4}
+.grid b{display:block;font-size:14px;color:#fff;margin:5px 0}
+footer{text-align:center;padding:15px 20px 100px}
+footer .logo{width:96px;height:auto;border-radius:18px;display:block;margin:0 auto;border:1px solid #ffffff18}
+footer h2{font-size:25px;margin:12px 0 6px}
+footer p{color:#888;font-size:13px;margin:0}
+.float{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);width:min(calc(100% - 30px),450px);padding:15px;background:linear-gradient(100deg,#ff087a,#ff7049);border-radius:16px;text-align:center;text-decoration:none;color:#fff;font-weight:900;font-size:15px;z-index:8}
+[hidden]{display:none!important}
+.ib-banner{display:flex;align-items:center;gap:8px;margin:10px 15px 0;padding:10px 12px;border-radius:12px;background:#ff704914;border:1px solid #ff704955;color:#ffc29b;font-size:12px;line-height:1.5}
+.ib-banner button{margin-left:auto;flex:none;border:0;background:#ffffff14;color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:12px;line-height:1}
+.install{margin:0 15px 28px;padding:20px;border-radius:24px;background:linear-gradient(135deg,#101a2e,#1b1026);border:1px solid #2f5bd955;position:relative;overflow:hidden}
+.install h2{font-size:21px;margin:0 0 4px}
+.install .sub{font-size:13px;color:#aaa;margin:0}
+.steps{display:grid;gap:9px;margin-top:14px}
+.steps>div{display:flex;align-items:center;gap:11px;background:#ffffff08;border-radius:15px;padding:12px 14px;transition:.3s ease}
+.steps>div:hover{transform:translateY(-3px);background:#ffffff0e}
+.steps>div>span{flex:none;width:26px;height:26px;border-radius:50%;background:linear-gradient(100deg,#ff087a,#ff7049);color:#fff;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center}
+.steps .t b{display:block;font-size:14px}
+.steps .t p{font-size:12px;color:#999;margin:2px 0 0}
+/* ===== Motion layer ===== */
+body:before,body:after{content:"";position:fixed;z-index:-1;border-radius:50%;filter:blur(80px);opacity:.28;pointer-events:none;animation:orb 10s ease-in-out infinite alternate}
+body:before{width:280px;height:280px;background:#ff167d;left:-120px;top:12%}
+body:after{width:320px;height:320px;background:#7437ff;right:-170px;top:42%;animation-delay:-4s}
+@keyframes orb{to{transform:translate3d(35px,55px,0) scale(1.18)}}
+.brand .logo{animation:logoGlow 3s ease-in-out infinite}
+@keyframes logoGlow{50%{filter:drop-shadow(0 0 12px #ff36c7);transform:scale(1.04)}}
+.badge{position:relative;overflow:hidden}
+.badge:after{content:"";position:absolute;inset:-2px;transform:translateX(-130%);background:linear-gradient(100deg,transparent,#ffffff75,transparent);animation:shine 3.2s infinite}
+@keyframes shine{55%,100%{transform:translateX(130%)}}
+h1{animation:heroIn .8s cubic-bezier(.2,.8,.2,1) both}
+.hero p{animation:heroIn .8s .12s both}
+.hero .btn{animation:heroIn .8s .22s both,pulse 2.5s 1.2s infinite}
+@keyframes heroIn{from{opacity:0;transform:translateY(22px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+@keyframes pulse{50%{box-shadow:0 0 0 8px #ff3c7c12,0 18px 55px #ff205450;transform:translateY(-2px)}}
+.promo{animation:floatCard 4.5s ease-in-out infinite}
+.promo:before{content:"";position:absolute;width:140px;height:140px;right:-50px;top:-55px;background:radial-gradient(circle,#ffcf5f66,transparent 65%);animation:coinGlow 2.8s ease-in-out infinite}
+@keyframes floatCard{50%{transform:translateY(-5px)}}
+@keyframes coinGlow{50%{transform:scale(1.35);opacity:.55}}
+.rail article{transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+.rail article:active{transform:scale(.975)}
+.rail article img{transition:transform .7s ease}
+.rail article:hover img{transform:scale(1.035)}
+.rewards:after{content:"✦";position:absolute;right:22px;top:18px;font-size:36px;color:#ffbd55;animation:spark 2.2s ease-in-out infinite}
+@keyframes spark{50%{transform:rotate(90deg) scale(1.35);opacity:.45}}
+.grid div{transition:.3s ease}
+.grid div:hover{transform:translateY(-4px);background:#ffffff0e}
+.float{animation:floatCta 2.2s ease-in-out infinite}
+@keyframes floatCta{50%{transform:translateX(-50%) translateY(-4px);box-shadow:0 18px 50px #ff276344}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.on{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand"><img class="logo" src="logo.png" alt="FlickReels">FlickReels</div>
+  </header>
+  <div class="ib-banner" id="ibBanner" hidden>If the download doesn't start, open this page in your browser (Chrome or Safari) and tap Download again.<button type="button" onclick="this.closest('.ib-banner').hidden=true" aria-label="Close">×</button></div>
+  <div class="hero">
+    <span class="badge">SPECIAL PROMOTION</span>
+    <h1>Watch short dramas<br><b>and earn money</b></h1>
+    <p>Enjoy addictive short dramas and receive rewards while watching during our promotion.</p>
+    <a class="btn" href="https://h1.nu/1Gujt">Download APP →</a>
+  </div>
+  <div class="promo reveal">
+    <small>WATCH · ENJOY · EARN</small>
+    <h2>Watch dramas =<br><b>Earn rewards</b></h2>
+    <p>Watch more content and get more rewards during the promotion.</p>
+  </div>
+  <section class="reveal">
+    <div class="title"><h2>🔥 Popular dramas</h2><span>Swipe →</span></div>
+    <div class="rail">
+      <article><img src="poster-1.jpg" alt="The Alpha's Nanny Is His Luna"><h3>The Alpha's Nanny Is His Luna</h3><p>Fantasy · Romance</p></article>
+      <article><img src="poster-2.jpg" alt="Marigold"><h3>Marigold</h3><p>Fantasy · Drama</p></article>
+      <article><img src="poster-3.jpg" alt="Most Likely To"><h3>Most Likely To</h3><p>Romance · Comedy</p></article>
+      <article><img src="poster-4.jpg" alt="The Wolf Wife"><h3>The Wolf Wife</h3><p>Fantasy · Drama</p></article>
+      <article><img src="poster-5.jpg" alt="The Luna"><h3>The Luna</h3><p>Fantasy · Drama</p></article>
+    </div>
+  </section>
+  <div class="rewards reveal">
+    <h2>🎁 Watch and earn</h2>
+    <p>Enjoy dramas and take part in the promotion.</p>
+    <div class="grid">
+      <div>▶️<b>Watch dramas</b>Enjoy episodes</div>
+      <div>🪙<b>Earn money</b>Receive rewards</div>
+      <div>🎁<b>Daily tasks</b>More opportunities</div>
+      <div>👥<b>Invite friends</b>Participate and win</div>
+    </div>
+  </div>
+  <div class="install reveal">
+    <h2>📲 How to install</h2>
+    <p class="sub">It takes less than a minute.</p>
+    <div class="steps">
+      <div><span>1</span><div class="t"><b>Download the APK</b><p>Tap the Download button and save the file.</p></div></div>
+      <div><span>2</span><div class="t"><b>Allow installs</b><p>Tap "Allow" if your phone asks for permission.</p></div></div>
+      <div><span>3</span><div class="t"><b>Install &amp; watch</b><p>Open the file and follow the prompts.</p></div></div>
+    </div>
+  </div>
+  <footer class="reveal">
+    <img class="logo" src="logo.png" alt="FlickReels">
+    <h2>Your next story starts here.</h2>
+    <p>FlickReels · Short dramas and rewards</p>
+  </footer>
+  <a class="float" href="https://h1.nu/1Gujt">Download FlickReels</a>
+</div>
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+
+  var rail=document.querySelector('.rail');
+  if(rail){
+    var paused=false;
+    rail.addEventListener('touchstart',function(){paused=true},{passive:true});
+    rail.addEventListener('touchend',function(){setTimeout(function(){paused=false},1800)},{passive:true});
+    setInterval(function(){
+      if(paused) return;
+      var card=rail.querySelector('article');
+      if(!card) return;
+      var step=card.getBoundingClientRect().width+11;
+      var end=rail.scrollWidth-rail.clientWidth-8;
+      rail.scrollTo({left:rail.scrollLeft>=end?0:rail.scrollLeft+step,behavior:'smooth'});
+    },3200);
+  }
+
+  var inApp=/FBAN|FBAV|Instagram|TikTok|musical\.ly|KakaoTalk|Line\/|Snapchat|Twitter|Messenger|MicroMessenger/i.test(navigator.userAgent||'');
+  if(inApp){var b=document.getElementById('ibBanner');if(b)b.hidden=false;}
+})();
+</script>
+</body>
+</html>
